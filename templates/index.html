@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SŠPU App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Školní Aplikace</h1>
+        
+        {% if weather %}
+        <div class="weather">
+            Teplota venku: <strong>{{ weather.temperature }} °C</strong>
+        </div>
+        {% endif %}
+
+        <div class="form-box">
+            <h3>Napsat zprávu</h3>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <p>Titulek: {{ form.title(size=30) }}</p>
+                <p>Obsah: {{ form.content(cols=35, rows=3) }}</p>
+                {{ form.submit() }}
+            </form>
+        </div>
+
+        <hr>
+        <h3>Novinky</h3>
+        <ul>
+            {% for n in news %}
+            <li><strong>{{ n.title }}</strong>: {{ n.content }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
