@@ -26,6 +26,12 @@ class NewsForm(FlaskForm):
     content = TextAreaField('Obsah', validators=[DataRequired()])
     submit = SubmitField('Odeslat')
 
+# --- TOTO JE TA OPRAVA ---
+# Tento prikaz rekne aplikaci: "Pokud neexistuje databaze, vytvor ji ted hned."
+with app.app_context():
+    db.create_all()
+# -------------------------
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     weather = None
