@@ -3,38 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Školní Aplikace</title>
+    <title>Společná Kasa 💸</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <h1>Školní Aplikace</h1>
+    <h1>💸 Společná Kasa - LowCost Trip</h1>
 
     {% if weather %}
     <div class="weather-box">
-        Teplota venku: {{ weather.temperature }} °C (vítr: {{ weather.windspeed }} km/h)
+        Aktuálně venku: {{ weather.temperature }} °C
     </div>
     {% endif %}
+
+    <div style="background: #28a745; color: white; padding: 20px; text-align: center; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0; opacity: 0.9;">Celkem utraceno</h2>
+        <h1 style="margin: 10px 0 0 0; font-size: 48px;">{{ total }} Kč</h1>
+    </div>
 
     <form method="POST">
         {{ form.hidden_tag() }}
         
-        <label>Titulek:</label>
-        {{ form.title(size=32) }}
+        <label>Kdo platil (Jméno):</label>
+        {{ form.payer(placeholder="Např. Tomáš") }}
         
-        <label>Obsah zprávy:</label>
-        {{ form.content(rows=5) }}
+        <label>Za co se platilo:</label>
+        {{ form.item(placeholder="Např. Benzín, Pivo, Ubytování") }}
         
-        {{ form.submit() }}
+        <label>Částka (Kč):</label>
+        {{ form.amount(placeholder="Např. 500") }}
+        
+        {{ form.submit(value="Zapsat dluh") }}
     </form>
 
-    <h3>Novinky</h3>
-    {% for item in news %}
-    <div class="news-item">
-        <strong>{{ item.title }}</strong>
-        <p>{{ item.content }}</p>
-    </div>
-    {% endfor %}
+    <h3>Historie plateb</h3>
+    {% if expenses %}
+        {% for exp in expenses %}
+        <div class="news-item" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <strong style="font-size: 1.1em; color: #007bff;">{{ exp.payer }}</strong> 
+                <span style="color: #555;">koupil</span> 
+                <strong>{{ exp.item }}</strong>
+            </div>
+            <div style="font-weight: bold; color: #dc3545; font-size: 1.2em;">
+                -{{ exp.amount }} Kč
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center; color: gray;">Zatím žádné výdaje. Užívejte dovolenou! 🌴</p>
+    {% endif %}
 
 </body>
 </html>
