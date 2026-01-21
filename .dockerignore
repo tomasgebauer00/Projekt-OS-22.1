@@ -1,5 +1,4 @@
 venv
 .git
 __pycache__
-instance
 .env
