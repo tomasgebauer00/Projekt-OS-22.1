@@ -1,37 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>SŠPU App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Školní Aplikace</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Školní Aplikace</h1>
-        
-        {% if weather %}
-        <div class="weather">
-            Teplota venku: <strong>{{ weather.temperature }} °C</strong>
-        </div>
-        {% endif %}
 
-        <div class="form-box">
-            <h3>Napsat zprávu</h3>
-            <form method="POST">
-                {{ form.hidden_tag() }}
-                <p>Titulek: {{ form.title(size=30) }}</p>
-                <p>Obsah: {{ form.content(cols=35, rows=3) }}</p>
-                {{ form.submit() }}
-            </form>
-        </div>
+    <h1>Školní Aplikace</h1>
 
-        <hr>
-        <h3>Novinky</h3>
-        <ul>
-            {% for n in news %}
-            <li><strong>{{ n.title }}</strong>: {{ n.content }}</li>
-            {% endfor %}
-        </ul>
+    {% if weather %}
+    <div class="weather-box">
+        Teplota venku: {{ weather.temperature }} °C (vítr: {{ weather.windspeed }} km/h)
     </div>
+    {% endif %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        
+        <label>Titulek:</label>
+        {{ form.title(size=32) }}
+        
+        <label>Obsah zprávy:</label>
+        {{ form.content(rows=5) }}
+        
+        {{ form.submit() }}
+    </form>
+
+    <h3>Novinky</h3>
+    {% for item in news %}
+    <div class="news-item">
+        <strong>{{ item.title }}</strong>
+        <p>{{ item.content }}</p>
+    </div>
+    {% endfor %}
+
 </body>
 </html>
